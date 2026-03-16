@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boogie Brains MS Hub - Premium Accounts & Services</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-brain"></i>
+                <span>Boogie Brains</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#products" class="nav-link">Products</a>
+                <a href="#support" class="nav-link">Support</a>
+                <div class="nav-auth">
+                    <button id="loginBtn" class="btn btn-outline">Login</button>
+                    <button id="registerBtn" class="btn btn-primary">Register</button>
+                </div>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login to Your Account</h2>
+                <button class="close-btn" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <form id="loginForm" class="modal-form">
+                <div class="form-group">
+                    <label for="loginEmail">Email Address</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="modal-footer">Don't have an account? <a href="#" onclick="switchModal('loginModal', 'registerModal')">Register here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Account</h2>
+                <button class="close-btn" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <form id="registerForm" class="modal-form">
+                <div class="form-group">
+                    <label for="registerName">Full Name</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email Address</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <input type="password" id="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerConfirm">Confirm Password</label>
+                    <input type="password" id="registerConfirm" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+                <p class="modal-footer">Already have an account? <a href="#" onclick="switchModal('registerModal', 'loginModal')">Login here</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard (Hidden by default) -->
+    <div id="dashboardContainer" class="dashboard-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <i class="fas fa-brain"></i>
+                <span>Boogie Brains</span>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" onclick="showDashboardTab('dashboard')" class="sidebar-link active">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" onclick="showDashboardTab('products')" class="sidebar-link">
+                    <i class="fas fa-box"></i>
+                    <span>Products</span>
+                </a>
+                <a href="#" onclick="showDashboardTab('wallet')" class="sidebar-link">
+                    <i class="fas fa-wallet"></i>
+                    <span>Fund Wallet</span>
+                </a>
+                <a href="#" onclick="showDashboardTab('orders')" class="sidebar-link">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>My Orders</span>
+                </a>
+                <a href="#" onclick="showDashboardTab('support')" class="sidebar-link">
+                    <i class="fas fa-headset"></i>
+                    <span>Support</span>
+                </a>
+                <a href="#" onclick="showDashboardTab('terms')" class="sidebar-link">
+                    <i class="fas fa-file-contract"></i>
+                    <span>Terms of Use</span>
+                </a>
+                <a href="#" onclick="showDashboardTab('rules')" class="sidebar-link">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Rules</span>
+                </a>
+                <a href="#" onclick="showDashboardTab('community')" class="sidebar-link">
+                    <i class="fas fa-users"></i>
+                    <span>Join Our Community</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Dashboard -->
+        <main class="dashboard-main">
+            <!-- Top Bar -->
+            <div class="dashboard-topbar">
+                <div class="wallet-display">
+                    <i class="fas fa-naira-sign"></i>
+                    <span id="walletBalance">₦0.00</span>
+                </div>
+                <div class="user-profile">
+                    <button class="avatar-btn" onclick="toggleUserMenu()">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div id="userMenu" class="user-menu" style="display: none;">
+                        <div class="user-email" id="userEmail">user@example.com</div>
+                        <a href="#" onclick="showDashboardTab('change-password')" class="user-menu-item">
+                            <i class="fas fa-key"></i> Change Password
+                        </a>
+                        <a href="#" onclick="logoutUser()" class="user-menu-item logout">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Dashboard Tab -->
+                <div id="dashboard-tab" class="dashboard-tab active">
+                    <h2>Dashboard</h2>
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <i class="fas fa-wallet"></i>
+                            <h3>Wallet Balance</h3>
+                            <p class="stat-value" id="statBalance">₦0.00</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h3>Total Orders</h3>
+                            <p class="stat-value" id="statOrders">0</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <h3>Total Deposits</h3>
+                            <p class="stat-value" id="statDeposits">₦0.00</p>
+                        </div>
+                    </div>
+
+                    <!-- Wallet History -->
+                    <div class="history-section">
+                        <h3>Wallet History</h3>
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="walletHistoryTable">
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">No transactions yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Payment History -->
+                    <div class="history-section">
+                        <h3>Payment History</h3>
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="paymentHistoryTable">
+                                <tr>
+                                    <td colspan="3" style="text-align: center;">No payments yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Products Tab -->
+                <div id="products-tab" class="dashboard-tab">
+                    <h2>Products</h2>
+                    <div class="products-filter">
+                        <input type="text" id="productSearch" placeholder="Search products..." class="search-input">
+                        <select id="categoryFilter" class="category-select">
+                            <option value="">All Categories</option>
+                            <option value="facebook">Facebook Accounts</option>
+                            <option value="instagram">Instagram Accounts</option>
+                            <option value="twitter">Twitter Accounts</option>
+                            <option value="tiktok">TikTok Accounts</option>
+                            <option value="other">Other Services</option>
+                        </select>
+                    </div>
+                    <div class="products-grid" id="productsGrid">
+                        <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                            <p>Loading products...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fund Wallet Tab -->
+                <div id="wallet-tab" class="dashboard-tab">
+                    <h2>Fund Your Wallet</h2>
+                    <div class="fund-wallet-section">
+                        <div class="fund-card">
+                            <h3>Add Funds to Your Wallet</h3>
+                            <form id="fundWalletForm">
+                                <div class="form-group">
+                                    <label for="fundAmount">Amount (₦)</label>
+                                    <input type="number" id="fundAmount" min="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="paymentMethod">Payment Method</label>
+                                    <select id="paymentMethod" required>
+                                        <option value="">Select Payment Method</option>
+                                        <option value="flutterwave">Flutterwave</option>
+                                        <option value="paystack">Paystack</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block">Proceed to Payment</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Orders Tab -->
+                <div id="orders-tab" class="dashboard-tab">
+                    <h2>My Orders</h2>
+                    <div class="orders-section">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Product</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable">
+                                <tr>
+                                    <td colspan="5" style="text-align: center;">No orders yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Support Tab -->
+                <div id="support-tab" class="dashboard-tab">
+                    <h2>Support</h2>
+                    <div class="support-section">
+                        <div class="support-card">
+                            <i class="fab fa-whatsapp"></i>
+                            <h3>WhatsApp Support</h3>
+                            <p>Get instant help from our support team</p>
+                            <a href="https://wa.me/2348144886427?text=Hello%20Boogie%20Brains%20MS%20Hub" target="_blank" class="btn btn-primary">
+                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                            </a>
+                        </div>
+                        <div class="support-card">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Email Support</h3>
+                            <p>Send us your inquiries via email</p>
+                            <a href="mailto:support@boogiebrainsmshub.com" class="btn btn-primary">Send Email</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terms of Use Tab -->
+                <div id="terms-tab" class="dashboard-tab">
+                    <h2>Terms of Use</h2>
+                    <div class="terms-content">
+                        <div class="logo-section">₦0.00</div>
+                        <h3>Boogie Brains MS Hub TERMS OF USE</h3>
+                        <p>Make sure to use m.facebook.com for first login for Facebook, request desktop mode for better usage on Chrome, Firefox, Brave browser and make sure to clear the browser history. Don't use PC for first login, we will not replace that account if you get it on checkpoint for your ignorance to rules.</p>
+                        <p>Kindly follow the above rule before you login accounts, as we will not replace some certain errors made.</p>
+                        <h4>MOST RECOMMENDED VPN FOR FACEBOOK: SURFSHARK AND HMA VPN</h4>
+                        <ul>
+                            <li>Customer must unlock a locked account linked to email for unlock, if not linked to email to unlock we will replace it.</li>
+                            <li>We cannot replace an account because the customer cannot change the account's date of birth or change the name (if we replace the account customers often take back the account in the future, and we seize any opportunity to take unnecessary losses).</li>
+                            <li>We do not replace damaged marketplace for any Facebook account but 90% of the time the marketplace works perfectly. If you want to replace a damaged marketplace account then you should consider buying an EU to USA account.</li>
+                            <li>POV: DO NOT USE SAFARI BROWSER TO LOGIN ANY ACCOUNT YOU PURCHASE ON THIS SITE. DO NOT EVER USE APP FOR FIRST LOGIN.</li>
+                            <li>The full validity of the account (within 24 hours after the purchase), if no rule was broken.</li>
+                            <li>We do not replace an account because its date of birth cannot be changed.</li>
+                            <li>NOTICE: You are required to use m.facebook.com for the first login of any Facebook account before logging in on the app. We won't have a warranty for any checkpoint issues that arise from the locked account or caused by disobeying this rule or any other rules from the below.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Rules Tab -->
+                <div id="rules-tab" class="dashboard-tab">
+                    <h2>Rules & Disclaimer</h2>
+                    <div class="rules-content">
+                        <h3>⚠️ DISCLAIMER</h3>
+                        <ul>
+                            <li>The accounts we sell are original and exclusively provided to you.</li>
+                            <li>Once sold, accounts will never be resold or reused in any way.</li>
+                            <li>The responsibility for account usage lies entirely with the buyer.</li>
+                            <li>We are not responsible for account suspensions, additional verifications, security locks, or any other restrictions caused by improper use, spam activities, or violations of the respective platform's terms of service. Also understand that we only sell, we don't know how to use or what these accounts are used for. Please do your own research on what you're buying.</li>
+                            <li>For long-lasting and secure account usage, we highly recommend logging in from trusted devices and clean, high-quality IP addresses.</li>
+                        </ul>
+                        <p><strong>Thank you for choosing us</strong></p>
+                    </div>
+                </div>
+
+                <!-- Community Tab -->
+                <div id="community-tab" class="dashboard-tab">
+                    <h2>Join Our Community</h2>
+                    <div class="community-section">
+                        <h3>Connect with us on WhatsApp</h3>
+                        <p>Join thousands of satisfied customers in our exclusive WhatsApp community for updates, tips, and direct support.</p>
+                        <a href="https://chat.whatsapp.com/DjuYkvGWBtgHo7f29lPvCj" target="_blank" class="btn btn-primary btn-lg">
+                            <i class="fab fa-whatsapp"></i> Join WhatsApp Community
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Change Password Tab -->
+                <div id="change-password-tab" class="dashboard-tab">
+                    <h2>Change Password</h2>
+                    <div class="change-password-section">
+                        <form id="changePasswordForm">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmNewPassword">Confirm New Password</label>
+                                <input type="password" id="confirmNewPassword" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update Password</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Landing Page Content -->
+    <div id="landingPageContainer">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Welcome to Boogie Brains MS Hub</h1>
+                <p>Premium Accounts & Services for Your Needs</p>
+                <button onclick="document.getElementById('loginBtn').click()" class="btn btn-primary btn-lg">Get Started</button>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section id="products" class="products-section">
+            <div class="container">
+                <h2>Our Products</h2>
+                <div class="products-filter">
+                    <input type="text" id="landingProductSearch" placeholder="Search products..." class="search-input">
+                    <select id="landingCategoryFilter" class="category-select">
+                        <option value="">All Categories</option>
+                        <option value="facebook">Facebook Accounts</option>
+                        <option value="instagram">Instagram Accounts</option>
+                        <option value="twitter">Twitter Accounts</option>
+                        <option value="tiktok">TikTok Accounts</option>
+                        <option value="other">Other Services</option>
+                    </select>
+                </div>
+                <div class="products-grid" id="landingProductsGrid">
+                    <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+                        <p>Loading products...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Support Section -->
+        <section id="support" class="support-section-landing">
+            <div class="container">
+                <h2>Need Help?</h2>
+                <p>Contact us on WhatsApp for support and inquiries</p>
+                <a href="https://wa.me/2348144886427?text=Hello%20Boogie%20Brains%20MS%20Hub" target="_blank" class="btn btn-primary btn-lg">
+                    <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2026 Boogie Brains MS Hub. All rights reserved. | WhatsApp: +234 814 488 6427</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
